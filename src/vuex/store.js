@@ -29,7 +29,7 @@ const store = {
         let json = await response.json()
         context.commit('setNews', json.results)
       } else {
-        alert('Error HTTP: ' + response.status)
+        alert('Error: ' + response.status)
       }
     },
   },
