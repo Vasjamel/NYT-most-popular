@@ -3,9 +3,9 @@
     <h1>The most {{ type }} articles in last {{ period }} {{ days }}:</h1>
 
     <article-card
-      v-for="each in $store.state.news"
-      :key="each.id"
-      :each="each"
+      v-for="article in $store.state.news"
+      :key="article.id"
+      :article="article"
     />
   </div>
 </template>

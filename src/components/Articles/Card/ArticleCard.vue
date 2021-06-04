@@ -1,28 +1,28 @@
 <template>
   <div class="card">
-    <image-block :image="imagePath" :title="each.title" />
-    <text-block
-      :title="each.title"
-      :abstract="each.abstract"
-      :keywords="each.adx_keywords"
-      :url="each.url"
+    <image-block :image="imagePath" :title="article.title" />
+    <article-content
+      :title="article.title"
+      :abstract="article.abstract"
+      :keywords="article.adx_keywords"
+      :url="article.url"
     />
   </div>
 </template>
 
 <script>
 import ImageBlock from './ImageBlock'
-import TextBlock from './TextBlock'
+import ArticleContent from './ArticleContent'
 export default {
   components: {
     ImageBlock,
-    TextBlock,
+    ArticleContent,
   },
-  props: ['each'],
+  props: ['article'],
   computed: {
     imagePath() {
-      return this.$props.each.media[0]
-        ? this.$props.each.media[0]['media-metadata'][2].url
+      return this.$props.article.media[0]
+        ? this.$props.article.media[0]['media-metadata'][2].url
         : ''
     },
   },

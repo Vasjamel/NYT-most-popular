@@ -1,19 +1,21 @@
 <template>
   <div id="app">
     <the-header />
-    <the-form @submit-form="formUpdated" />
-    <the-spinner v-if="loading || !this.$store.state.news.length" />
-    <articles-list v-else :type="type" :period="period" />
-    <the-footer />
+    <the-filter @submit-form="formUpdated" :period="period" :type="type" />
+    <the-spinner v-if="loading" />
+    <div v-else>
+      <articles-list :type="type" :period="period" />
+      <the-footer />
+    </div>
   </div>
 </template>
 
 <script>
-//key saved in env.local file is not working, I get error 401
+//key saved in env.local file is not working, I get error 401, so here is another file
 import key from './key-api'
-import TheSpinner from './components/UI/TheSpinner'
+import TheSpinner from './components/Spinner/TheSpinner'
 import TheHeader from './components/Header/TheHeader'
-import TheForm from './components/Form/TheForm'
+import TheFilter from './components/Form/TheFilter'
 import ArticlesList from './components/Articles/ArticlesList'
 import TheFooter from './components/Footer/TheFooter'
 
@@ -21,7 +23,7 @@ export default {
   components: {
     TheSpinner,
     TheHeader,
-    TheForm,
+    TheFilter,
     ArticlesList,
     TheFooter,
   },
@@ -42,10 +44,10 @@ export default {
     formUpdated(type, period) {
       this.type = type
       this.period = period
-      this.download()
+      this.load()
     },
 
-    async download() {
+    async load() {
       this.loading = true
       const httpURL = `${this.baseURL}/${this.type}/${this.period}.json?api-key=${this.key}`
       await this.$store.dispatch('loadNews', httpURL)
@@ -54,7 +56,7 @@ export default {
   },
 
   mounted() {
-    this.download()
+    this.load()
   },
 }
 </script>
