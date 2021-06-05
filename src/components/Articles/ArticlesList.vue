@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>The most {{ type }} articles in last {{ period }} {{ days }}:</h1>
+    <h1>
+      The top {{ category }} articles in last {{ days }} {{ daysQuantifier }}:
+    </h1>
 
     <article-card
       v-for="article in $store.state.news"
@@ -15,10 +17,10 @@ import ArticleCard from './Card/ArticleCard'
 
 export default {
   components: { ArticleCard },
-  props: ['type', 'period'],
+  props: ['category', 'days'],
   computed: {
-    days() {
-      return this.$props.period === '1' ? 'day' : 'days'
+    daysQuantifier() {
+      return this.days === '1' ? 'day' : 'days'
     },
   },
 }

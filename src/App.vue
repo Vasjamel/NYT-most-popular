@@ -1,55 +1,57 @@
 <template>
-  <div id="app">
-    <the-header />
-    <the-filter @submit-form="formUpdated" :period="period" :type="type" />
+  <div class="app">
+    <the-modal v-if="$store.getters.error" />
+    <the-header :load="load" />
+    <the-filter @filter-handler="onFilterChanged" />
     <the-spinner v-if="loading" />
     <div v-else>
-      <articles-list :type="type" :period="period" />
+      <articles-list :category="category" :days="days" />
       <the-footer />
     </div>
   </div>
 </template>
 
 <script>
-//key saved in env.local file is not working, I get error 401, so here is another file
-import key from './key-api'
-import TheSpinner from './components/Spinner/TheSpinner'
+import TheSpinner from './components/CommonUI/TheSpinner'
+import TheModal from './components/CommonUI/TheModal'
 import TheHeader from './components/Header/TheHeader'
-import TheFilter from './components/Form/TheFilter'
+import TheFilter from './components/Filter/TheFilter'
 import ArticlesList from './components/Articles/ArticlesList'
 import TheFooter from './components/Footer/TheFooter'
 
 export default {
   components: {
     TheSpinner,
+    TheModal,
     TheHeader,
     TheFilter,
     ArticlesList,
     TheFooter,
   },
 
-  emits: ['submit-form'],
+  emits: ['filter-handler'],
 
   data() {
     return {
-      key,
+      key: process.env.VUE_APP_SECRET_KEY,
       baseURL: 'https://api.nytimes.com/svc/mostpopular/v2',
-      type: 'viewed',
-      period: '1',
       loading: false,
+      days: '1',
+      category: 'viewed',
     }
   },
 
   methods: {
-    formUpdated(type, period) {
-      this.type = type
-      this.period = period
+    onFilterChanged(category, days) {
+      this.category = category
+      this.days = days
       this.load()
     },
 
     async load() {
+      const httpURL = `${this.baseURL}/${this.category}/${this.days}.json?api-key=${this.key}`
+
       this.loading = true
-      const httpURL = `${this.baseURL}/${this.type}/${this.period}.json?api-key=${this.key}`
       await this.$store.dispatch('loadNews', httpURL)
       this.loading = false
     },
@@ -62,7 +64,7 @@ export default {
 </script>
 
 <style scoped>
-#app {
+.app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
   max-width: 1920px;

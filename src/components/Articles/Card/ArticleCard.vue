@@ -31,7 +31,7 @@ export default {
 
 <style scoped>
 .card {
-  margin: 20px auto;
+  margin: 40px auto;
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -40,7 +40,6 @@ export default {
   border-width: 30px 20px 12px 8px;
   border-color: grey;
   max-width: 1100px;
-  border-top-right-radius: 20px;
 }
 
 @media only screen and (min-width: 440px) and (max-width: 760px) {
@@ -54,7 +53,6 @@ export default {
     border-color: grey;
     max-width: 1100px;
     min-width: 440px;
-    border-top-right-radius: 20px;
   }
 }
 </style>
