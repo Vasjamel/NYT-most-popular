@@ -5,8 +5,7 @@
     </div>
     <div v-else class="image-placeholder">
       <h4>
-        Unfortunately, image is not availiable for the article:
-        <h3>{{ title }}</h3>
+        Unfortunately, image is not availiable for the article
       </h4>
     </div>
   </div>
